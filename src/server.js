@@ -1,13 +1,12 @@
 require('dotenv').config()
 const fastify = require('fastify')({ logger: true })
+const endpointRedirectController = require('./controllers/endpoint-redirect-controller')
 
-const config = require('./common/config')
-
-fastify.get('/hello', (_, __) => ({ hello: 'world' }))
+fastify.get('/*', endpointRedirectController.handle)
 
 const start = async () => {
   try {
-    await fastify.listen(config.app.port)
+    await fastify.listen(3333)
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)

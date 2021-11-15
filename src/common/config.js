@@ -17,6 +17,9 @@ const config = {
       port: process.env.REDIS_PORT,
       password: process.env.REDIS_PASS
     }
+  },
+  destination: {
+    baseUrl: process.env.DESTINATION_BASE_URL
   }
 }
 
