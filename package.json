@@ -31,6 +31,8 @@
   "dependencies": {
     "dotenv": "^10.0.0",
     "fastify": "^3.23.1",
+    "ioredis": "^4.28.0",
+    "mongodb": "^4.1.4",
     "winston": "^3.3.3"
   }
 }
