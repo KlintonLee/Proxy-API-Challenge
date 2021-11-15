@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const config = {
   app: {
     nodeEnv: process.env.NODE_ENV || 'develop',
@@ -20,6 +22,11 @@ const config = {
   },
   destination: {
     baseUrl: process.env.DESTINATION_BASE_URL
+  },
+  rateLimit: {
+    maxPerIPWithPath: process.env.RATE_LIMIT_MAX_REQUESTS_PER_IP_WITH_PATH,
+    expireTimeInSeconds: process.env.RATE_LIMIT_EXPIRE_TIME_IN_SECONDS,
+    requestsPerURLPath: process.env.RATE_LIMIT_PER_URL_PATH
   }
 }
 
