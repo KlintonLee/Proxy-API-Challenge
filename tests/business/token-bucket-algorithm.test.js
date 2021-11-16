@@ -1,7 +1,6 @@
-const { expect } = require('chai')
-const rateLimit = require('../../src/common/rate-limit')
 const config = require('../../src/common/config')
-const { redisClient } = require('../../src/common/db-connections')
+const redisClient = require('../../src/common/redis-client')
+const rateLimit = require('../../src/business/rate-limit/token-bucket-algorithm')
 
 describe('rate-limit.test.js', () => {
   afterEach(() => {
@@ -21,7 +20,7 @@ describe('rate-limit.test.js', () => {
     await rateLimit.execute('0.0.0.0', '/api/home')
 
     expect(stubOfRedisGetMethod.calledOnce).to.be.true
-    expect(stubOfRedisSetMethod.calledWith('0.0.0.0:/api/home', 10, 'EX', 120)).to.be.true
+    expect(stubOfRedisSetMethod.calledWith('0.0.0.0:/api/home', 10)).to.be.true
   })
 
   it(`Given an '0.0.0.0' as userIP and '/api/home' as path
@@ -37,7 +36,7 @@ describe('rate-limit.test.js', () => {
     const tokensLeft = await rateLimit.execute('0.0.0.0', '/api/home')
 
     expect(tokensLeft).to.be.eq(5)
-    expect(stubOfRedisSetMethod.calledWith('0.0.0.0:/api/home', 5, 'EX', 120)).to.be.true
+    expect(stubOfRedisSetMethod.calledWith('0.0.0.0:/api/home', 5)).to.be.true
   })
 
   it(`Given an '0.0.0.0' as userIP and '/api/home' as path

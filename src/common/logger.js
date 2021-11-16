@@ -12,14 +12,10 @@ const logger = createLogger({
     format.splat(),
     format.json()
   ),
-  defaultMeta: { service: 'proxy-api-challenge' },
+  defaultMeta: { service: config.app.name },
   transports: [
-    new transports.File(
-      { filename: config.app.errorLogPathFile === undefined ? 'logs/error.log' : config.app.errorLogPathFile, level: 'error' }
-    ),
-    new transports.File(
-      { filename: config.app.combinedLogPathFile === undefined ? 'logs/combined.log' : config.app.combinedLogPathFile }
-    )
+    new transports.File({ filename: config.app.errorLogPathFile, level: 'error' }),
+    new transports.File({ filename: config.app.combinedLogPathFile })
   ]
 })
 

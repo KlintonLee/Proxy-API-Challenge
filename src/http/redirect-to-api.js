@@ -1,5 +1,6 @@
 const axios = require('axios')
 const config = require('../common/config')
+const logger = require('../common/logger')
 
 const execute = async (url, headers, body, method = 'get') => {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
@@ -23,6 +24,7 @@ const execute = async (url, headers, body, method = 'get') => {
       data: body
     }
 
+    logger.info(`src/http/redirect-to-api.js - Requesting to ${baseUrl}${url}`, { requestData: axiosRequestConfig })
     const { data, status, statusText } = await axios(axiosRequestConfig)
 
     response.success = true
@@ -30,6 +32,7 @@ const execute = async (url, headers, body, method = 'get') => {
     response.status = status
     response.statusText = statusText
 
+    logger.info('src/http/redirect-to-api.js - The request was successful', { response })
     return response
   } catch (err) {
     if (err.response) {
@@ -38,10 +41,11 @@ const execute = async (url, headers, body, method = 'get') => {
       response.status = status
       response.statusText = statusText
 
+      logger.error('src/http/redirect-to-api.js - An http error occurred during the request', { response })
       return response
     }
 
-    response.content = err.message
+    logger.error('src/http/redirect-to-api.js - An unexpected error has occurred', { error: err.message })
     return response
   }
 }

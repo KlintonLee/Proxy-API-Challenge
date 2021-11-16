@@ -2,10 +2,11 @@ require('dotenv').config()
 
 const config = {
   app: {
+    name: process.env.APP_NAME || 'Proxy API Challenge',
     nodeEnv: process.env.NODE_ENV || 'develop',
     port: process.env.APP_PORT,
-    errorLogPathFile: process.env.ERROR_LOG_PATH_FILE || null,
-    combinedLogPathFile: process.env.COMBINED_LOG_PATH_FILE || null
+    errorLogPathFile: process.env.ERROR_LOG_PATH_FILE || 'logs/error.log',
+    combinedLogPathFile: process.env.COMBINED_LOG_PATH_FILE || 'logs/combined.log'
   },
   database: {
     mongo: {

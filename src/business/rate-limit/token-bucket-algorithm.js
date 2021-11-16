@@ -1,8 +1,8 @@
-const { redisClient } = require('./db-connections')
-const config = require('./config')
+const redisClient = require('../../common/redis-client')
+const config = require('../../common/config')
 
 const execute = async (userIp, urlPath) => {
-  const { maxPerIPWithPath, expireTimeInSeconds } = config.rateLimit
+  const { maxPerIPWithPath } = config.rateLimit
   let tokensLeft = 0
 
   const exists = await redisClient.get(`${userIp}:${urlPath}`)
@@ -10,14 +10,14 @@ const execute = async (userIp, urlPath) => {
     const renewToken = parseInt(exists, 10) - 1
 
     if (renewToken > 0) {
-      await redisClient.set(`${userIp}:${urlPath}`, renewToken, 'EX', expireTimeInSeconds)
+      await redisClient.set(`${userIp}:${urlPath}`, renewToken)
       tokensLeft = renewToken
     }
 
     return tokensLeft
   }
 
-  await redisClient.set(`${userIp}:${urlPath}`, maxPerIPWithPath, 'EX', expireTimeInSeconds)
+  await redisClient.set(`${userIp}:${urlPath}`, maxPerIPWithPath)
   tokensLeft = maxPerIPWithPath
 
   return tokensLeft

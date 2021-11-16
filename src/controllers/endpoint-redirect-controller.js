@@ -1,5 +1,5 @@
 const redirectToAPI = require('../http/redirect-to-api')
-const rateLimit = require('../common/rate-limit')
+const rateLimit = require('../business/rate-limit/token-bucket-algorithm')
 const config = require('../common/config')
 
 const handle = async (request, reply) => {
@@ -22,8 +22,11 @@ const handle = async (request, reply) => {
   }
 
   const response = await redirectToAPI.execute(url, headers, body)
+  if (response.success) {
+    return response
+  }
 
-  return response
+  return reply.code(400).send({ message: 'Something went wrong, please try again later.' })
 }
 
 module.exports = {
