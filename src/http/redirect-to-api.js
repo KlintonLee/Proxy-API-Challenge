@@ -3,7 +3,7 @@ const config = require('../common/config')
 const logger = require('../common/logger')
 
 const execute = async (url, headers, body, method = 'get') => {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1'
   const response = {
     success: false,
     content: null,
