@@ -32,10 +32,21 @@ Mas havendo a necessidade de trocar a ferramenta para uma que não saiba lidar
 com a expiração automática, basta acrescentar o `timestamp`.
 ![Token Bucket](docs/token-bucket.png)
 
+## Como suportar 50k requests por segundo
+Há um benchmark feito pelos criadores do Fastify, mostrando que express.js pode
+lidar com aproximadamente 15 mil requisições por segundo, e o módulo HTTP
+vanilla pode lidar com 70 mil requisições por segundo.
+> Fastify is a web framework highly focused on providing the best developer 
+experience with the least overhead and a powerful plugin architecture. It is
+inspired by Hapi and Express and as far as we know, it is one of the fastest web
+frameworks in town.
+
+![Fastify Benchmark](docs/fastify-benchmark.png)
+
 ## 🗃 Escolha do Banco de dados
-O MongoDB provisiona uma entrega consistente e tolerante a partição. Ou seja,
-quando ocorre a perda de comunicação (rede) entre dois nós quaisquer, o sistema
-desativa o nó não consistente até que a partição seja resolvida.
+O MongoDB provisiona uma entrega consistente e tolerante a partição **CP**. Ou
+seja, quando ocorre a perda de comunicação (rede) entre dois nós quaisquer, o
+sistema desativa o nó não consistente até que a partição seja resolvida.
 
 Como o MongoDB trabalha com sistema de mestre único, cada conjunto pode ter
 apenas um nó primário que receberá todas as operações gravadas. Em resumo, os
@@ -61,6 +72,8 @@ Essa entrega possui um prazo definido, como não tenho conhecimento com o
 Cassandra, eu precisei me manter no MongoDB para garantir a entrega funcionando.
 
 ## 📚 Fontes:
+[How many requests can hancle a real world Nodejs server](https://javascript.plainenglish.io/how-many-requests-can-handle-a-real-world-nodejs-server-side-application-55da7a2f06f3)
+
 [Rate Limit - LogRocket](https://blog.logrocket.com/rate-limiting-node-js/)
 
 [Rate Limit - Narendra L](https://www.youtube.com/watch?v=mhUQe4BKZXs)
