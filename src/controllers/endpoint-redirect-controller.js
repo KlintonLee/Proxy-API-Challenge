@@ -1,5 +1,6 @@
 const redirectToAPI = require('../http/redirect-to-api')
 const rateLimit = require('../business/rate-limit/token-bucket-algorithm')
+const saveIncomingRequestToAccessControl = require('../queries/save-incoming-request-to-access-control')
 const config = require('../common/config')
 
 const handle = async (request, reply) => {
@@ -9,7 +10,7 @@ const handle = async (request, reply) => {
   const tokensLeft = await rateLimit.execute(ip, url)
 
   const { maxPerIPWithPath, expireTimeInSeconds } = config.rateLimit
-  const rateLimitRemaining = tokensLeft === 0 ? 0 : tokensLeft - 1
+  const rateLimitRemaining = !tokensLeft ? 0 : tokensLeft - 1
 
   reply.headers({
     'X-RateLimit-Limit': maxPerIPWithPath,
@@ -17,9 +18,11 @@ const handle = async (request, reply) => {
     'X-RateLimit-Reset': expireTimeInSeconds
   })
 
-  if (tokensLeft === 0) {
+  if (!tokensLeft) {
     return reply.code(400).send('To many requests')
   }
+
+  await saveIncomingRequestToAccessControl.execute(ip, url)
 
   const response = await redirectToAPI.execute(url, headers, body)
   if (response.success) {
