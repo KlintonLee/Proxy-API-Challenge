@@ -2,6 +2,8 @@ RUN = npm run
 
 INSTALL = npm install
 
+RM = rm -rf
+
 DOCKER_UP = docker-compose up -d
 DOCKER_DOWN = docker-compose down
 
@@ -19,6 +21,11 @@ reset:
 	${DOCKER_UP}
 
 clean:
-	rm -rf volumes logs
+	${RM} volumes logs
 
-.PHONY : all tests reset clean
+down:
+	${DOCKER_DOWN}
+	make clean
+	${RM} node_modules
+
+.PHONY : all tests reset clean down

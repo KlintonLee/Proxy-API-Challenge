@@ -2,10 +2,7 @@
 const { mongo } = require('../common/mongo-client')
 const logger = require('../common/logger')
 
-const execute = async (ip, month = null, year = null) => {
-  if (!month) month = new Date().getMonth() + 1
-  if (!year) year = new Date().getYear() + 1900
-
+const execute = async (ip, month, year) => {
   const mongoClient = await mongo.getClient()
   try {
     const accessData = await mongoClient

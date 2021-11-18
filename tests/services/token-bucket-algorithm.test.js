@@ -1,6 +1,6 @@
 const config = require('../../src/common/config')
 const redisClient = require('../../src/common/redis-client')
-const rateLimit = require('../../src/business/rate-limit/token-bucket-algorithm')
+const rateLimit = require('../../src/services/rate-limit-service')
 
 describe('rate-limit.test.js', () => {
   afterEach(() => {

@@ -21,6 +21,7 @@
         "comma-dangle": ["error", "never"],
         "no-unused-expressions": "off",
         "max-len": [2, {"code": 130, "tabWidth": 2, "ignoreUrls": true, "ignorePattern": "logger.*"}],
-        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        "no-param-reassign": "off"
     }
 }

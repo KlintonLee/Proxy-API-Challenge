@@ -1,5 +1,5 @@
-const redisClient = require('../../common/redis-client')
-const config = require('../../common/config')
+const redisClient = require('../common/redis-client')
+const config = require('../common/config')
 
 const execute = async (userIp, urlPath) => {
   const { maxPerIPWithPath } = config.rateLimit

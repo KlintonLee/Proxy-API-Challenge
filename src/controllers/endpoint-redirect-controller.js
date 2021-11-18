@@ -1,13 +1,12 @@
-const redirectToAPI = require('../http/redirect-to-api')
-const rateLimit = require('../business/rate-limit/token-bucket-algorithm')
-const saveIncomingRequestToAccessControl = require('../queries/save-incoming-request-to-access-control')
 const config = require('../common/config')
+const rateLimitService = require('../services/rate-limit-service')
+const callExternalApiService = require('../services/call-external-api-service')
 
 const handle = async (request, reply) => {
   // eslint-disable-next-line object-curly-newline
   const { ip, url, headers, body } = request
 
-  const tokensLeft = await rateLimit.execute(ip, url)
+  const tokensLeft = await rateLimitService.execute(ip, url)
 
   const { maxPerIPWithPath, expireTimeInSeconds } = config.rateLimit
   const rateLimitRemaining = !tokensLeft ? 0 : tokensLeft - 1
@@ -19,14 +18,14 @@ const handle = async (request, reply) => {
   })
 
   if (!tokensLeft) {
-    return reply.code(400).send('To many requests')
+    return reply.code(400).send('Too many requests')
   }
 
-  await saveIncomingRequestToAccessControl.execute(ip, url)
-
-  const response = await redirectToAPI.execute(url, headers, body)
-  if (response.success) {
-    return response
+  const apiResponse = await callExternalApiService.execute({
+    ip, url, headers, body
+  })
+  if (apiResponse.success) {
+    return apiResponse
   }
 
   return reply.code(400).send({ message: 'Something went wrong, please try again later.' })
