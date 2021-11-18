@@ -22,12 +22,14 @@ estatísticas;
 - [MAKE](https://guialinux.uniriotec.br/make/) - **opcional**
 
 ## ✅ Inicializando o projeto
+**Primeiro** é necessário preencher o `.env`, para auxiliar o .env.example já
+está quase totalmente preenchido. Faltando apenas o `DESTINATION_BASE_URL`, e os
+demais em valor default são suficientes para execução. Use o comanho abaixo na
+raíz do projeto para lhe auxiliar.
+> cat .env.example > .env
+
 Se estiver utilizando o Make, esteja com o terminal aberto na pasta raíz do
 repositório e digite `make`, assim quase todo o ambiente subirá automagicamente.
-
-Feito isso  é necessário preencher o `.env`, para auxiliar o .env.example já
-está quase totalmente preenchido. Faltando apenas o `DESTINATION_BASE_URL`, e os
-demais em valor default são suficientes para execução.
 
 Se não estiver com o Make, basta seguir o passo acima preenchendo o `.env` e
 executar os comandos abaixo
@@ -36,6 +38,8 @@ docker-compose up -d
 npm run install
 npm run start
 ```
+**OBS:** A `URL Destino` não pode conter `/` no final e a aplicação demora
+alguns segundos para terminar de instalar e instanciar as dependências.
 
 ## 💂🏼‍♂️ Rate Limit
 O Rate limit permite limitar a quantidade de requisições enviadas para API's do
@@ -102,6 +106,24 @@ que cuida de recursos HTTP, ou seja, irá se comunicar com a API de destino e se
 tudo ocorrer bem o retorno passa por quase todo o fluxo novamente para chegar ao
 cliente final, como mostra as setas laranjas.
 ![Arquitetura](docs/proxy-api-challenge.png)
+
+## 🧪 Testes unitários
+Os testes foram aplicado na camada de **Services** onde reside a maior parte da
+lógica de negócio, e, corre maior risco de quebrar a aplicação em casos de
+melhoria ou refatoração.
+![Testes unitarios](docs/unit-test-coverage.png)
+
+## Endpoints de Estatísticas
+Todas as rotas abaixo contém dois query params opcionais, caso não sejam
+informados, por default serão mês e ano vigente:
+- month - Em numérico Ex: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+- year - Em numérico Ex: 2021
+
+- `http://localhost:3333/api/v1/ips/{IP}` - Obtém informações de acesso a partir
+  do IP do cliente.
+- `http://localhost:3333/api/v1/accesses` - Obtém informações totais de acessos,
+  detalhes dos acessos e paginação.
+  - query param: page - numérico
 
 ## 📚 Fontes:
 [How many requests can hancle a real world Nodejs server](https://javascript.plainenglish.io/how-many-requests-can-handle-a-real-world-nodejs-server-side-application-55da7a2f06f3)

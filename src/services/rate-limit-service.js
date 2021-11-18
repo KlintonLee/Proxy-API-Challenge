@@ -1,8 +1,7 @@
-const redisClient = require('../common/redis-client')
 const config = require('../common/config')
 const logger = require('../common/logger')
 
-const execute = async (userIp, urlPath) => {
+const execute = async (userIp, urlPath, redisClient) => {
   const { limitingByIP, limitingByPath, maxRequests } = config.rateLimit
   let tokensLeft = 0
   let redisKey
