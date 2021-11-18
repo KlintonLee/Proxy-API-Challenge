@@ -1,5 +1,19 @@
 # Proxy API Challenge
 
+Este desafio tem como objetivo o desenvolvimento de um "proxy de API" seguindo
+os critérios abaixo:
+
+- Executar a função de proxy sobre um endpoint específico, ou seja, servir de
+intermediador para as requisições do cliente;
+- Deverá permitir o controle das quantidades máximas de requisições por:
+  - IP do cliente;
+  - URL do cliente;
+  - Os dois cominados;
+  - A criatividade é bem vinda.
+- Os dados devem ser armazenados e disponibilizados via API para coleta de
+estatísticas;
+- O proxy precisa ser capaz de suportar até 30k de requisições por segundo.
+
 ## 🛠 Ferramentas necessárias
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
@@ -9,9 +23,14 @@
 
 ## ✅ Inicializando o projeto
 Se estiver utilizando o Make, esteja com o terminal aberto na pasta raíz do
-repositório e digite `make`, e ele iniciará toda a aplicação automaticamente.
+repositório e digite `make`, assim quase todo o ambiente subirá automagicamente.
 
-Se não estiver com o Make, basta executar os comandos abaixo
+Feito isso  é necessário preencher o `.env`, para auxiliar o .env.example já
+está quase totalmente preenchido. Faltando apenas o `DESTINATION_BASE_URL`, e os
+demais em valor default são suficientes para execução.
+
+Se não estiver com o Make, basta seguir o passo acima preenchendo o `.env` e
+executar os comandos abaixo
 ```
 docker-compose up -d
 npm run install
@@ -70,6 +89,19 @@ em um sistema de alto desempenho.
 ### ⏱ Mas por que MongoDB?
 Essa entrega possui um prazo definido, como não tenho conhecimento com o
 Cassandra, eu precisei me manter no MongoDB para garantir a entrega funcionando.
+
+## 🧱 Arquitetura da aplicação
+Em resumo, o app irá fornecer uma porta de entrada para API. Em seguida, é
+percebido que bate no controller que chama os serviços necessários para expor
+os recursos desejados pelo usuário.
+
+Como mencionado anteriormente, o service irá armazenar alguns dados do usuário
+que está acessando a API, inclusive, ele possui uma lógica para limitar as
+requisições do usuário. Salvo os dados necessários é redirecionado para a camada
+que cuida de recursos HTTP, ou seja, irá se comunicar com a API de destino e se
+tudo ocorrer bem o retorno passa por quase todo o fluxo novamente para chegar ao
+cliente final, como mostra as setas laranjas.
+![Arquitetura](docs/proxy-api-challenge.png)
 
 ## 📚 Fontes:
 [How many requests can hancle a real world Nodejs server](https://javascript.plainenglish.io/how-many-requests-can-handle-a-real-world-nodejs-server-side-application-55da7a2f06f3)
