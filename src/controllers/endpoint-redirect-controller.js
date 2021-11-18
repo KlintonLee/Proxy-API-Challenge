@@ -1,6 +1,7 @@
 const config = require('../common/config')
 const rateLimitService = require('../services/rate-limit-service')
 const callExternalApiService = require('../services/call-external-api-service')
+const logger = require('../common/logger')
 
 const handle = async (request, reply) => {
   // eslint-disable-next-line object-curly-newline
@@ -18,6 +19,7 @@ const handle = async (request, reply) => {
   })
 
   if (!tokensLeft) {
+    logger.warn('src/controllers/endpoint-redirect-controller.js - User made many requests, no more tokens left', { ip, url })
     return reply.code(400).send('Too many requests')
   }
 
@@ -28,6 +30,7 @@ const handle = async (request, reply) => {
     return apiResponse
   }
 
+  logger.error('src/controllers/endpoint-redirect-controller.js - An unexpected error occurred', { ip, url })
   return reply.code(400).send({ message: 'Something went wrong, please try again later.' })
 }
 

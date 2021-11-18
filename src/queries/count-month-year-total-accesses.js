@@ -21,7 +21,9 @@ const execute = async (month, year) => {
     const totalDiff = accessCount.length
     const totalAccesses = accessCount.reduce((acc, accessData) => acc + accessData.total, 0)
 
-    logger.info('src/queries/count-month-year-total-accesses.js - Total access by month and year', { month, year, totalAccesses })
+    logger.info('src/queries/count-month-year-total-accesses.js - Total access by month and year', {
+      month, year, totalDiff, totalAccesses
+    })
     return {
       totalDiff,
       totalAccesses

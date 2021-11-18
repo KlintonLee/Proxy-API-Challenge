@@ -1,3 +1,4 @@
+const logger = require('../common/logger')
 const gettingGeneralAccessData = require('../services/getting-general-access-data')
 const gettingSpecificAccessDataByIP = require('../services/getting-specific-access-data-by-ip')
 
@@ -24,6 +25,7 @@ const accessDataByIp = async (request, reply) => {
   )
 
   if (!accessData) {
+    logger.warn('src/controllers/accesses-data-statistics-controller.js - No data found for this IP address', { ip })
     return reply.code(400).send('No data found for this IP address')
   }
 
