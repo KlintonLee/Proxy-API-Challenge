@@ -12,7 +12,7 @@ describe('rate-limit.test.js', () => {
       Then return 10 and redis set method should be called like:
         redis.set('0.0.0.0:/api/home', 10, 'EX', 120)
         considering max request limit as 10 and expire time as 120`, async () => {
-    sinon.stub(config.rateLimit, 'maxPerIPWithPath').value(10)
+    sinon.stub(config.rateLimit, 'maxRequests').value(10)
     sinon.stub(config.rateLimit, 'expireTimeInSeconds').value(120)
     const stubOfRedisGetMethod = sinon.stub(redisClient, 'get')
     const stubOfRedisSetMethod = sinon.stub(redisClient, 'set')

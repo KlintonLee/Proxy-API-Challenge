@@ -25,9 +25,10 @@ const config = {
     baseUrl: process.env.DESTINATION_BASE_URL
   },
   rateLimit: {
-    maxPerIPWithPath: process.env.RATE_LIMIT_MAX_REQUESTS_PER_IP_WITH_PATH,
-    expireTimeInSeconds: process.env.RATE_LIMIT_EXPIRE_TIME_IN_SECONDS,
-    requestsPerURLPath: process.env.RATE_LIMIT_PER_URL_PATH
+    maxRequests: process.env.RATE_LIMIT_MAX_REQUESTS,
+    limitingByIP: process.env.RATE_LIMIT_BY_IP === 'true',
+    limitingByPath: process.env.RATE_LIMIT_BY_PATH === 'true',
+    expireTimeInSeconds: process.env.RATE_LIMIT_EXPIRE_TIME_IN_SECONDS
   }
 }
 

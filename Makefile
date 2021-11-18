@@ -10,7 +10,7 @@ DOCKER_DOWN = docker-compose down
 all:
 	${DOCKER_UP}
 	${INSTALL}
-	${RUN} dev
+	${RUN} start
 
 tests:
 	${RUN} test

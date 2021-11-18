@@ -8,11 +8,11 @@ const handle = async (request, reply) => {
 
   const tokensLeft = await rateLimitService.execute(ip, url)
 
-  const { maxPerIPWithPath, expireTimeInSeconds } = config.rateLimit
+  const { maxRequests, expireTimeInSeconds } = config.rateLimit
   const rateLimitRemaining = !tokensLeft ? 0 : tokensLeft - 1
 
   reply.headers({
-    'X-RateLimit-Limit': maxPerIPWithPath,
+    'X-RateLimit-Limit': maxRequests,
     'X-RateLimit-Remaining': rateLimitRemaining,
     'X-RateLimit-Reset': expireTimeInSeconds
   })
