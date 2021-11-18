@@ -1,6 +1,6 @@
 const logger = require('../common/logger')
-const gettingGeneralAccessData = require('../services/getting-general-access-data')
-const gettingSpecificAccessDataByIP = require('../services/getting-specific-access-data-by-ip')
+const gettingGeneralAccessData = require('../services/getting-general-access-data-service')
+const gettingSpecificAccessDataByIP = require('../services/getting-specific-access-data-by-ip-service')
 
 const fullAccessData = async (request, _) => {
   const { month, year, page } = request.query
